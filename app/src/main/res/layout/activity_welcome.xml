@@ -12,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="500dp"
         android:layout_centerHorizontal="true"
-        app:lottie_fileName="animation.json"
-        app:lottie_autoPlay="true" />
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="animation.json" />
 
     <TextView
         android:visibility="invisible"

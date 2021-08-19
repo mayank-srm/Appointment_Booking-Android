@@ -8,7 +8,7 @@ import com.ak.project.activity.LoginActivity;
 import com.ak.project.model.UserModel;
 
 /**
- * Created by Belal on 9/5/2017.
+ * Created by Mayank on 13,August,2021
  */
 
 //here for this class we are using a singleton pattern

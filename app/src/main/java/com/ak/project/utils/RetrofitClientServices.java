@@ -15,8 +15,8 @@ public class RetrofitClientServices {
 
     private static Retrofit retrofit;
    // public static final String BASE_URL = "http://10.0.2.2/akshay/";
-    public static final String BASE_URL = "http://10.0.2.2/akshay/";
-    private static final String ROOT_URL = "http://10.0.2.2/akshay/Api.php?apicall=";
+    public static final String BASE_URL = "http://10.0.2.2/test/";
+    private static final String ROOT_URL = "http://10.0.2.2/test/Api.php?apicall=";
     public static final String URL_REGISTER = ROOT_URL + "signup";
     public static final String URL_LOGIN = ROOT_URL + "login";
 

@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ak.project.R;
 import com.ak.project.utils.Tools;
@@ -26,20 +27,25 @@ public class PaymentActivity extends AppCompatActivity {
     private TextInputEditText et_cvv;
     private TextInputEditText et_name;
 
+    private String  cc_number="";
+    private String  cc_expire="";
+    private String cc_cvv="";
+    private String cc_name="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
-        card_number = (TextView) findViewById(R.id.card_number);
-        card_expire = (TextView) findViewById(R.id.card_expire);
-        card_cvv = (TextView) findViewById(R.id.card_cvv);
-        card_name = (TextView) findViewById(R.id.card_name);
+        card_number = findViewById(R.id.card_number);
+        card_expire = findViewById(R.id.card_expire);
+        card_cvv = findViewById(R.id.card_cvv);
+        card_name = findViewById(R.id.card_name);
 
-        et_card_number = (TextInputEditText) findViewById(R.id.et_card_number);
-        et_expire = (TextInputEditText) findViewById(R.id.et_expire);
-        et_cvv = (TextInputEditText) findViewById(R.id.et_cvv);
-        et_name = (TextInputEditText) findViewById(R.id.et_name);
+        et_card_number = findViewById(R.id.et_card_number);
+        et_expire = findViewById(R.id.et_expire);
+        et_cvv = findViewById(R.id.et_cvv);
+        et_name = findViewById(R.id.et_name);
 
         et_card_number.addTextChangedListener(new TextWatcher() {
             @Override
@@ -59,7 +65,7 @@ public class PaymentActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                cc_number = et_card_number.getText().toString();
             }
         });
 
@@ -81,7 +87,7 @@ public class PaymentActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                cc_expire = et_expire.getText().toString();
             }
         });
 
@@ -102,7 +108,7 @@ public class PaymentActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                cc_cvv = et_cvv.getText().toString();
             }
         });
 
@@ -123,15 +129,28 @@ public class PaymentActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                cc_name = et_name.getText().toString();
             }
         });
 
 }
 
     public void Submit(View view) {
-        Intent intent = new Intent(getApplicationContext(),WelcomeActivity.class);
-        startActivity(intent);
-        finish();
+        if(cc_number.length()!=16 || cc_number.equals("")){
+            Toast.makeText(PaymentActivity.this, "Not A valid Card Number", Toast.LENGTH_LONG).show();
+        }
+        else if(cc_expire.length()!=4 || cc_expire.equals("")){
+            Toast.makeText(PaymentActivity.this, "Not A valid Expiry Date", Toast.LENGTH_LONG).show();
+        }
+        else if(cc_cvv.length()!=3 || cc_cvv.equals("")){
+            Toast.makeText(PaymentActivity.this, "Not A valid CVV Code", Toast.LENGTH_LONG).show();
+        }
+        else if(cc_name.equals("")){
+            Toast.makeText(PaymentActivity.this, "Not A valid Name", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+            startActivity(intent);
+        }
     }
 }

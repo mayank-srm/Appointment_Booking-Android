@@ -16,7 +16,7 @@ import com.ak.project.model.UserModel;
 public class SharedPrefManager {
 
     //the constants
-    private static final String SHARED_PREF_NAME = "simplifiedcodingsharedpref";
+    private static final String SHARED_PREF_NAME = "bookingsharedpref";
     private static final String KEY_USERNAME = "keyusername";
     private static final String KEY_EMAIL = "keyemail";
     private static final String KEY_GENDER = "keygender";

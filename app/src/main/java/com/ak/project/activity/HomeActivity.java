@@ -2,7 +2,9 @@ package com.ak.project.activity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,14 +33,14 @@ import retrofit2.Response;
 public class HomeActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
 
     RetrofitClientServices.Api service;
-    String[] types = {"Gardener", "Plumber", "Electrician", "Cleaner", "Carpenter"};
+    String[] types = {"Gardener", "Plumber", "Electrician", "Cleaner", "Carpenter",
+            "Cleaner", "Carpenter", "driver" , "Cook" , "babysitting", "mechanical"};
 
     Button btn_date;
     TextView txt_date,txt_user;
-    String type,date ;
+    String type,date ,price;
 
     RadioGroup radioGroup;
-    String price = "" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +51,7 @@ public class HomeActivity extends AppCompatActivity  implements AdapterView.OnIt
         btn_date = findViewById(R.id.bt_pick);
         txt_date = findViewById(R.id.txt_date);
         txt_user = findViewById(R.id.txt_username);
-        btn_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pickdate();
-            }
-        });
+        btn_date.setOnClickListener(view -> pickdate());
 
         Spinner spin = (Spinner) findViewById(R.id.spin_type);
         spin.setOnItemSelectedListener(this);
@@ -63,10 +60,10 @@ public class HomeActivity extends AppCompatActivity  implements AdapterView.OnIt
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin.setAdapter(aa);
 
-//        if (!SharedPrefManager.getInstance(this).isLoggedIn()) {
-//            finish();
-//            startActivity(new Intent(this, LoginActivity.class));
-//        }
+        if (!SharedPrefManager.getInstance(this).isLoggedIn()) {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         //getting the current user
         UserModel user = SharedPrefManager.getInstance(this).getUser();
@@ -142,10 +139,34 @@ public class HomeActivity extends AppCompatActivity  implements AdapterView.OnIt
 
     }
     public void Submit(View view) {
-        bookAppointment();
-        Toast.makeText(HomeActivity.this, price, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this,PaymentActivity.class);
+        if(type == null){
+            Toast.makeText(HomeActivity.this, "Select valid Service", Toast.LENGTH_LONG).show();
+        }
+        else if(date == null){
+            Toast.makeText(HomeActivity.this, "Select valid Date", Toast.LENGTH_LONG).show();
+        }
+        else if(price == null){
+            Toast.makeText(HomeActivity.this, "Select valid Package", Toast.LENGTH_LONG).show();
+        }
+        else {
+            bookAppointment();
+            Toast.makeText(HomeActivity.this, price, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, PaymentActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public void Logout(View view) {
+        SharedPreferences preferences = getSharedPreferences("bookingsharedpref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void Contact(View view) {
+        Toast.makeText(HomeActivity.this, "Thank you for Contacting US!", Toast.LENGTH_LONG).show();
     }
 }

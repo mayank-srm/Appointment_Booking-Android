@@ -6,12 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,20 +43,25 @@ public class HomeActivity extends AppCompatActivity  implements AdapterView.OnIt
     TextView txt_date,txt_user;
     String type,date ,price;
 
+    RelativeLayout rl_package;
     RadioGroup radioGroup;
+
+    ProgressBar progressBar ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        radioGroup = (RadioGroup) findViewById(R.id.radio_group);
+        radioGroup = findViewById(R.id.radio_group);
         btn_date = findViewById(R.id.bt_pick);
         txt_date = findViewById(R.id.txt_date);
         txt_user = findViewById(R.id.txt_username);
+        rl_package =findViewById(R.id.rl_package);
+        progressBar = findViewById(R.id.progressbar);
         btn_date.setOnClickListener(view -> pickdate());
 
-        Spinner spin = (Spinner) findViewById(R.id.spin_type);
+        Spinner spin = findViewById(R.id.spin_type);
         spin.setOnItemSelectedListener(this);
 
         ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, types);
@@ -116,6 +124,7 @@ public class HomeActivity extends AppCompatActivity  implements AdapterView.OnIt
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
 
+
     }
 
     public void bookAppointment (){
@@ -168,5 +177,18 @@ public class HomeActivity extends AppCompatActivity  implements AdapterView.OnIt
 
     public void Contact(View view) {
         Toast.makeText(HomeActivity.this, "Thank you for Contacting US!", Toast.LENGTH_LONG).show();
+    }
+
+    public void package_show(View view) {
+        if(date == null){
+            Toast.makeText(HomeActivity.this, "Select valid Date", Toast.LENGTH_LONG).show();
+        }
+        else {
+            progressBar.setVisibility(View.VISIBLE);
+            new Handler().postDelayed((Runnable) () -> {
+                rl_package.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }, 1200);
+        }
     }
 }
